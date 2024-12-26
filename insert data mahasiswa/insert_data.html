@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Mahasiswa</title>
+  <link rel="stylesheet" href="insert_data.css">
+</head>
+<body>
+    <header>
+        <h1>DATA MAHASISWA</h1>
+        <nav>
+          <a href="#">Insert</a>
+          <a href="#">View</a>
+        </nav>
+    </header>
+  <div class="container">
+    <main>
+      <h2>Masukkan Data Mahasiswa</h2>
+      <form>
+        <div class="form-group">
+          <label for="nama">Nama</label>
+          <input type="text" id="nama" name="nama" required>
+        </div>
+        <div class="form-group">
+          <label for="nim">NIM</label>
+          <input type="text" id="nim" name="nim" required>
+        </div>
+        <div class="form-group">
+          <label for="alamat">Alamat</label>
+          <textarea id="alamat" name="alamat" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="prodi">Prodi</label>
+          <input type="text" id="prodi" name="prodi" required>
+        </div>
+        <div class="form-group">
+          <label for="ukt">UKT</label>
+          <input type="number" id="ukt" name="ukt" required>
+        </div>
+        <button type="submit">Tambah</button>
+      </form>
+    </main>
+  </div>
+</body>
+</html>
