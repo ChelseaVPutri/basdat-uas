@@ -71,6 +71,7 @@ $res = mysqli_query($conn, $query);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Data Mahasiswa</title>
   <link rel="stylesheet" href="view-data-mahasiswa/view_data.css">
+  <link rel="icon" href="./photo/UNJ.png">
 </head>
 
 <body>

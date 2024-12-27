@@ -20,6 +20,7 @@ if($_SERVER['REQUEST_METHOD'] ==='POST') {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Data Mahasiswa</title>
   <link rel="stylesheet" href="insert-data-mahasiswa/insert_data.css">
+  <link rel="icon" href="./photo/UNJ.png">
 </head>
 <body>
     <header>
