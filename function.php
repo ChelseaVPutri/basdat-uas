@@ -39,4 +39,8 @@ function standarDeviasiSampel($data) {
     return sqrt($sum / ($n - 1));
 }
 
+function getMean($data) {
+    return array_sum($data) / count($data);
+}
+
 ?>
