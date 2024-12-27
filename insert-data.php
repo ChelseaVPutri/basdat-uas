@@ -43,7 +43,7 @@ if($_SERVER['REQUEST_METHOD'] ==='POST') {
         </div>
         <div class="form-group">
           <label for="alamat">Alamat</label>
-          <textarea id="alamat" name="alamat" rows="3" required></textarea>
+          <input type="text" id="alamat" name="alamat" rows="3" required></input>
         </div>
         <div class="form-group">
           <label for="prodi">Prodi</label>

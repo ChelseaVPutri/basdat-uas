@@ -3,7 +3,7 @@
 $dbhost = "localhost";
 $dbuser = "root";
 $dbpass = "";
-$dbname = "sql_learn";
+$dbname = "data_mhs";
 $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
 
 if(!$conn) {
