@@ -21,6 +21,16 @@ $outtop = $q3 + (1.5 * $iqr);
 $outbot = $q1 - (1.5 * $iqr);
 $stdev = standarDeviasiSampel($ukt_data);
 
+$main_query_wo_outlier = "SELECT ukt FROM datamhs WHERE ukt >= $outbot AND ukt <= $outtop ORDER BY ukt ASC";
+$main_res_woo = $conn->query($main_query_wo_outlier);
+$ukt_data_woo = [];
+while ($rowwoo = $main_res_woo->fetch_assoc()) {
+  $ukt_data_woo[] = $rowwoo["ukt"];
+}
+
+$q2_woo = getQuartile($ukt_data_woo, 0.5);
+
+
 if ($filter == 'max') {
   $query = "SELECT * FROM datamhs WHERE ukt = (SELECT MAX(ukt) FROM datamhs)";
 } elseif ($filter === 'min') {
@@ -39,6 +49,12 @@ if ($filter == 'max') {
   $query = "SELECT * FROM datamhs WHERE ukt >= $outtop ORDER BY ukt ASC";
 } elseif ($filter == 'outbot') {
   $query = "SELECT * FROM datamhs WHERE ukt <= $outbot ORDER BY ukt ASC";
+} elseif ($filter == 'sort_asc_wo_outlier') {
+  $query = "SELECT * FROM datamhs WHERE ukt >= $outbot AND ukt <= $outtop ORDER BY ukt ASC";
+} elseif ($filter == 'sort_desc_wo_outlier') {
+  $query = "SELECT * FROM datamhs WHERE ukt >= $outbot AND ukt <= $outtop ORDER BY ukt DESC";
+} elseif ($filter == 'median_wo_outlier') {
+  $query = "SELECT * FROM datamhs WHERE ukt >= $outbot AND ukt <= $outtop ORDER BY nim ASC";
 } else {
   $query = "SELECT * FROM datamhs ORDER BY nim ASC";
 }
@@ -74,30 +90,47 @@ $res = mysqli_query($conn, $query);
           <button type="submit" name="filter" value="sort_desc">SORT DESC</button>
           <button type="submit" name="filter" value="max">MAX</button>
           <button type="submit" name="filter" value="min">MIN</button>
+          <button type="submit" name="filter" value="median">MEDIAN</button>
+          <button type="submit" name="filter" value="median_wo_outlier">MEDIAN W/O OUTLIER</button>
           <button type="submit" name="filter" value="q1">Q1</button>
           <button type="submit" name="filter" value="q2">Q2</button>
           <button type="submit" name="filter" value="q3">Q3</button>
           <button type="submit" name="filter" value="outtop">OUTLIER ATAS</button>
           <button type="submit" name="filter" value="outbot">OUTLIER BAWAH</button>
           <button type="submit" name="filter" value="stdev">STDEV</button>
+          <button type="submit" name="filter" value="sort_asc_wo_outlier">SORT ASC W/O OUTLIER</button>
+          <button type="submit" name="filter" value="sort_desc_wo_outlier">SORT DESC W/O OUTLIER</button>
         </form>
       </div>
       <?php if ($filter == 'max') { ?>
-        <div>MAX = <?php echo number_format($max,0,',','.'); ?></div>
-      <?php } elseif ($filter === 'min') { ?>
-        <div>MIN = <?php echo number_format($min,0,',','.'); ?></div>
-      <?php } elseif ($filter === 'q1') { ?>
-        <div>QUARTILE 1 = <?php echo number_format($q1,0,',','.'); ?></div>
-      <?php } elseif ($filter === 'q2') { ?>
-        <div>QUARTILE 2 = <?php echo number_format($q2,0,',','.'); ?></div>
-      <?php } elseif ($filter === 'q3') { ?>
-        <div>QUARTILE 3 = <?php echo number_format($q3,0,',','.'); ?></div>
-      <?php } elseif ($filter === 'outtop') { ?>
-        <div>TOP OUTLIER = <?php echo number_format($outtop,0,',','.'); ?></div>
-      <?php } elseif ($filter === 'outbot') { ?>
-        <div>BOTTOM OUTLIER = <?php echo number_format($outbot,0,',','.'); ?></div>
-      <?php } elseif ($filter === 'stdev') { ?>
-        <div>STANDAR DEVIASI = <?php echo number_format($stdev,3,',','.'); ?></div>
+        <div>MAX = <?php echo number_format($max, 0, ',', '.'); ?></div>
+      <?php }
+      if ($filter === 'min') { ?>
+        <div>MIN = <?php echo number_format($min, 0, ',', '.'); ?></div>
+      <?php }
+      if ($filter === 'q1') { ?>
+        <div>QUARTILE 1 = <?php echo number_format($q1, 0, ',', '.'); ?></div>
+      <?php }
+      if ($filter === 'q2') { ?>
+        <div>QUARTILE 2 = <?php echo number_format($q2, 0, ',', '.'); ?></div>
+      <?php }
+      if ($filter === 'median') { ?>
+        <div>MEDIAN= <?php echo number_format($q2, 0, ',', '.'); ?></div>
+      <?php }
+      if ($filter === 'median_wo_outlier') { ?>
+        <div>MEDIAN W/O OUTLIER= <?php echo number_format($q2_woo, 0, ',', '.'); ?></div>
+      <?php }
+      if ($filter === 'q3') { ?>
+        <div>QUARTILE 3 = <?php echo number_format($q3, 0, ',', '.'); ?></div>
+      <?php }
+      if ($filter === 'outtop' || $filter === 'sort_asc_wo_outlier' || $filter === 'sort_desc_wo_outlier' || $filter === 'median_wo_outlier') { ?>
+        <div>TOP OUTLIER = <?php echo number_format($outtop, 0, ',', '.'); ?></div>
+      <?php }
+      if ($filter === 'outbot' || $filter === 'sort_desc_wo_outlier' || $filter === 'sort_asc_wo_outlier' || $filter === 'median_wo_outlier') { ?>
+        <div>BOTTOM OUTLIER = <?php echo number_format($outbot, 0, ',', '.'); ?></div>
+      <?php }
+      if ($filter === 'stdev') { ?>
+        <div>STANDAR DEVIASI = <?php echo number_format($stdev, 3, ',', '.'); ?></div>
       <?php } ?>
       <table>
         <thead>
