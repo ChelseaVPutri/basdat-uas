@@ -18,7 +18,7 @@ $max = max($ukt_data);
 $min = min($ukt_data);
 $iqr = $q3 - $q1;
 $outtop = $q3 + (1.5 * $iqr);
-$outbot = $q1 - (1.5 * $iqr);
+$outbot = ($q1 - (1.5 * $iqr)) > 0 ? ($q1 - (1.5 * $iqr)) : 0;
 $stdev = standarDeviasiSampel($ukt_data);
 
 $main_query_wo_outlier = "SELECT ukt FROM datamhs WHERE ukt >= $outbot AND ukt <= $outtop ORDER BY ukt ASC";
